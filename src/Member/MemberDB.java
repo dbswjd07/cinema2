@@ -50,10 +50,10 @@ public class MemberDB {
 		return result;
 	}
 	
-	public int login(String id) {
-		int result = 0;
+	public MemberDTO login(String id) {
+		//int result = 0;
 		//String sql =  "insert into membership values (MEMBERSHIP_SEQ.nextval,?,?,?,?,?)";
-		String sql =  "select member_id from membership";
+		String sql =  "select * from membership where member_id = '"+id+"'";
 		MemberDTO dto = null;
 		try {
 			ps = con.prepareStatement(sql);
@@ -62,12 +62,93 @@ public class MemberDB {
 				dto = new MemberDTO();
 				dto.setMember_id(rs.getString("member_id"));
 				dto.setMember_pwd(rs.getString("member_pwd"));
+				dto.setNick(rs.getString("nick"));
+				
 			}
 			
 			
 		} catch (Exception e) {
-			// TODO: handle exception
 			e.printStackTrace();
+		}
+		
+		return dto;
+	}
+	
+	public MemberDTO login_pwd(String pwd) {
+		String sql =  "select * from membership where member_pwd = '"+pwd+"'";
+		MemberDTO dto = null;
+		try {
+			ps = con.prepareStatement(sql);
+			rs = ps.executeQuery();
+			if(rs.next()) {
+				dto = new MemberDTO();
+				dto.setMember_id(rs.getString("member_id"));
+				dto.setMember_pwd(rs.getString("member_pwd"));
+				dto.setNick(rs.getString("nick"));
+				
+			}
+			
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return dto;
+	}
+	
+	public MemberDTO search_id(String phone) {
+		String sql =  "select * from membership where phone = '"+phone+"'";
+		MemberDTO dto = null;
+		try {
+			ps = con.prepareStatement(sql);
+			rs = ps.executeQuery();
+			if(rs.next()) {
+				dto = new MemberDTO();
+				dto.setMember_id(rs.getString("member_id"));
+				dto.setMember_pwd(rs.getString("member_pwd"));
+				dto.setNick(rs.getString("nick"));
+				
+			}
+			
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return dto;
+	}
+	
+	public MemberDTO search_pwd(String id) {
+		String sql =  "select * from membership where member_id = '"+id+"'";
+		MemberDTO dto = null;
+		try {
+			ps = con.prepareStatement(sql);
+			rs = ps.executeQuery();
+			if(rs.next()) {
+				dto = new MemberDTO();
+				dto.setMember_id(rs.getString("member_id"));
+				dto.setMember_pwd(rs.getString("member_pwd"));
+				dto.setNick(rs.getString("nick"));
+				
+			}
+			
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return dto;
+	}
+	public int delete(String id) {
+		String sql = "delete from membership where member_id = ?";
+		int result = 0;
+		try {
+			ps = con.prepareStatement(sql);
+			ps.setString(1, id);
+			result = ps.executeUpdate();
+			
+		} catch (Exception e) {
+			
 		}
 		
 		return result;
